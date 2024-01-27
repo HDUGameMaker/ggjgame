@@ -84,21 +84,18 @@ namespace miruo
             {
                 smileToJump = 0f;
             }
-            //if (couldReceive)
+            if (couldReceive)
             {
                 if (smileToJump > 0.2f)
                 {
                     moveMode = 2;
                 }
             }
-<<<<<<< Updated upstream
-            playerRig.AddForce(new Vector3(0, 20, 0) * smileToJump);
-=======
-            //if (couldReceive)
-            //{
+
+            if (couldReceive)
+            {
                 playerRig.AddForce(new Vector3(0, 20, 0) * smileToJump);
-           // }
->>>>>>> Stashed changes
+            }
             if (moveMode == 2)
             {
                 playerRig.velocity = new Vector3(Mathf.Lerp(playerRig.velocity.x, 1f, 0.05f), playerRig.velocity.y, playerRig.velocity.z);
