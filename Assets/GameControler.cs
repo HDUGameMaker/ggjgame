@@ -18,13 +18,15 @@ namespace miruo
         public GameObject playerObj;
         public Rigidbody playerRig;
 
-        public int moveMode = 1;
+        private int moveMode;
+        private bool couldReceive;
         private Topic nowTopic;
         private Coroutine nowTopicCor;
         private bool couldGoNextTopic;
         // Start is called before the first frame update
         void Start()
         {
+            moveMode = 1;
             List<Transform> childList = new List<Transform>();
             nowTopic = transform.GetChild(0).GetComponent<TopicControler>().mytopic;
             couldGoNextTopic = false;
@@ -33,8 +35,16 @@ namespace miruo
         // Update is called once per frame
         void Update()
         {
-
-
+            if (Input.GetKey(KeyCode.Space))
+            {
+                smileToJump = Mathf.Lerp(smileToJump, 1f, 0.02f);
+            }
+            else
+            {
+                smileToJump = Mathf.Lerp(smileToJump, 0f, 0.02f);
+            }
+            
+            
             //执行持续节点
             if (couldGoNextTopic)
             {
@@ -53,15 +63,23 @@ namespace miruo
         }
         private void FixedUpdate()
         {
+            if (smileToJump <= 0.001)
+            {
+                smileToJump = 0f;
+            }
+            if (couldReceive)
+            {
+                if (smileToJump > 0.2)
+                {
+                    moveMode = 1;
+                }
+            }
+            playerRig.AddForce(new Vector3(0, 10, 0) * smileToJump);
             if (moveMode == 1)
             {
-                playerRig.velocity = Vector3.Lerp(playerRig.velocity, new Vector3(10, 0, 0), 0.02f);
-
+                playerRig.AddForce(new Vector3(5, 0, 0));
             }
-            if (moveMode == 0)
-            {
-                playerRig.velocity = Vector3.Lerp(playerRig.velocity, Vector3.zero, 0.02f);
-            }
+            
         }
         IEnumerator TopicCount()
         {
@@ -80,6 +98,11 @@ namespace miruo
         void KillRobot()
         {
 
+        }
+        public void touchBox()
+        {
+            moveMode = 0;
+            couldReceive = true;
         }
     }
     [Serializable]
