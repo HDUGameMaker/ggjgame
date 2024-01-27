@@ -1,5 +1,4 @@
 using DlibFaceLandmarkDetector;
-using DlibFaceLandmarkDetectorExample;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.UnityUtils;
 using System;
@@ -28,7 +27,6 @@ public class WebcamHumanBeauty : MonoBehaviour
     #region fps
     [SerializeField, TooltipAttribute("Set FPS of WebCamTexture.")]
     public int requestedFPS = 30;
-    private FpsMonitor fpsMonitor;
     #endregion
  
     #region dlib plugin params
@@ -47,7 +45,6 @@ public class WebcamHumanBeauty : MonoBehaviour
     private void Start()
     {
         // fps 监视器
-        fpsMonitor = gameObject.AddComponent<FpsMonitor>();
         dlibShapePredictorFilePath = Utils.getFilePath(dlibShapePredictorFileName);
         Run();
  
