@@ -8,13 +8,14 @@ namespace miruo
 {
     public class GameControler : MonoBehaviour
     {
-
         public TextMeshProUGUI speakText;
         private List<Topic> topics;
         public TextControler myTextControler;
         public float smileToJump;
         public WebcamHumanBeauty mywebcam;
         public int emoMode;
+        //0~8
+        //0是略微笑，1是大笑，2是笑哭，3是囧，4是害怕，5是惊讶，6是无语or淡漠，7是萨卡班甲鱼（这个有什么意义吗），8是无奈
         public GameObject playerObj;
         public Rigidbody playerRig;
         public GameObject startTopic;
