@@ -1309,6 +1309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speakText: {fileID: 930805938}
+  myTextControler: {fileID: 1823819162}
   smileToJump: 0
   mywebcam: {fileID: 1504002027}
   emoMode: 0
@@ -1587,9 +1588,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u72D0\u536B\u961F1234HDU"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a48993a9426de1143826f40343df792c, type: 2}
-  m_sharedMaterial: {fileID: -8169840358028259439, guid: a48993a9426de1143826f40343df792c,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2392,6 +2392,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f20c46edc920441a199757694cf3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  realtext: {fileID: 0}
 --- !u!1 &1891781851
 GameObject:
   m_ObjectHideFlags: 0
