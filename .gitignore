@@ -73,3 +73,4 @@ crashlytics-build.properties
 
 #OpenCV
 /Assets/OpenCVForUnity/Examples/
+/Assets/DlibFaceLandmarkDetector/Examples/
