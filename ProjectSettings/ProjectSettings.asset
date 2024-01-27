@@ -802,7 +802,12 @@ PlayerSettings:
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: OPENCV_USE_UNSAFE_CODE
+    Standalone: OPENCV_USE_UNSAFE_CODE
+    WebGL: OPENCV_USE_UNSAFE_CODE
+    Windows Store Apps: OPENCV_USE_UNSAFE_CODE
+    iPhone: OPENCV_USE_UNSAFE_CODE
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -825,7 +830,7 @@ PlayerSettings:
     tvOS: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
-  allowUnsafeCode: 0
+  allowUnsafeCode: 1
   useDeterministicCompilation: 1
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
