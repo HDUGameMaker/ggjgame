@@ -803,11 +803,11 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: OPENCV_USE_UNSAFE_CODE
-    Standalone: OPENCV_USE_UNSAFE_CODE
-    WebGL: OPENCV_USE_UNSAFE_CODE
-    Windows Store Apps: OPENCV_USE_UNSAFE_CODE
-    iPhone: OPENCV_USE_UNSAFE_CODE
+    Android: 
+    Standalone: 
+    WebGL: 
+    Windows Store Apps: 
+    iPhone: 
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
