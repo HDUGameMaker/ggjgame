@@ -21,5 +21,9 @@ namespace miruo {
         {
             myGame.touchBox();
         }
+        private void OnTriggerExit(Collider other)
+        {
+            myGame.exitBox();
+        }
     }
 }

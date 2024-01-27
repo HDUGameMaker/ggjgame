@@ -17,7 +17,8 @@ namespace miruo
         public int emoMode;
         public GameObject playerObj;
         public Rigidbody playerRig;
-
+        public GameObject startTopic;
+        private bool isGoToRight;
         private int moveMode;
         private bool couldReceive;
         private Topic nowTopic;
@@ -28,27 +29,42 @@ namespace miruo
         {
             moveMode = 1;
             List<Transform> childList = new List<Transform>();
-            nowTopic = transform.GetChild(0).GetComponent<TopicControler>().mytopic;
+            nowTopic = startTopic.transform.GetComponent<TopicControler>().mytopic;
             couldGoNextTopic = false;
             nowTopicCor = StartCoroutine(TopicCount());
         }
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (couldReceive)
             {
-                smileToJump = Mathf.Lerp(smileToJump, 1f, 0.02f);
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    smileToJump = Mathf.Lerp(smileToJump, 1f, 0.02f);
+                }
+                else
+                {
+                    smileToJump = Mathf.Lerp(smileToJump, 0f, 0.02f);
+                }
             }
-            else
+
+            if (isGoToRight)
             {
-                smileToJump = Mathf.Lerp(smileToJump, 0f, 0.02f);
+                isGoToRight = false;
+                if (nowTopicCor != null)
+                {
+                    StopCoroutine(nowTopicCor);
+                    nowTopic = nowTopic.rightTopic.GetComponent<TopicControler>().mytopic;
+                    couldGoNextTopic = false;
+                    nowTopicCor = StartCoroutine(TopicCount());
+
+                }
             }
-            
-            
+
             //执行持续节点
             if (couldGoNextTopic)
             {
-                if(nowTopic.nextTopic != null)
+                if (nowTopic.nextTopic != null)
                 {
                     nowTopic = nowTopic.nextTopic.GetComponent<TopicControler>().mytopic;
                     couldGoNextTopic = false;
@@ -57,29 +73,37 @@ namespace miruo
                 else
                 {
                     KillRobot();
+                    Debug.Log("游戏结束");
                 }
-                
+
             }
         }
         private void FixedUpdate()
         {
-            if (smileToJump <= 0.001)
+            if (smileToJump <= 0.001f)
             {
                 smileToJump = 0f;
             }
             if (couldReceive)
             {
-                if (smileToJump > 0.2)
+                if (smileToJump > 0.2f)
                 {
-                    moveMode = 1;
+                    moveMode = 2;
                 }
             }
-            playerRig.AddForce(new Vector3(0, 10, 0) * smileToJump);
+            playerRig.AddForce(new Vector3(0, 20, 0) * smileToJump);
+            if (moveMode == 2)
+            {
+                playerRig.velocity = new Vector3(Mathf.Lerp(playerRig.velocity.x, 1f, 0.05f), playerRig.velocity.y, playerRig.velocity.z);
+            }
             if (moveMode == 1)
             {
-                playerRig.AddForce(new Vector3(5, 0, 0));
+                playerRig.velocity = new Vector3(Mathf.Lerp(playerRig.velocity.x, 7f, 0.05f), playerRig.velocity.y, playerRig.velocity.z);
             }
-            
+            if (moveMode == 0)
+            {
+                playerRig.velocity = new Vector3(Mathf.Lerp(playerRig.velocity.x, 0f, 0.05f), playerRig.velocity.y, playerRig.velocity.z);
+            }
         }
         IEnumerator TopicCount()
         {
@@ -104,6 +128,13 @@ namespace miruo
             moveMode = 0;
             couldReceive = true;
         }
+        public void exitBox()
+        {
+            couldReceive = false;
+            moveMode = 1;
+            isGoToRight = true;
+            
+        }
     }
     [Serializable]
     public class Topic
@@ -114,9 +145,9 @@ namespace miruo
         public Chosen mychosen;
         [Header("自然继续的下一个话题")]
         public GameObject nextTopic;
-        [Header("错误中断话题")]
+        [Header("错误中断话题（弃用）")]
         public GameObject leftTopic;
-        [Header("正确中断话题")]
+        [Header("玩家通过中断话题")]
         public GameObject rightTopic;
         [Header("玩家退出话题")]
         public GameObject exitTopic;
