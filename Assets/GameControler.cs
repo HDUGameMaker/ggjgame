@@ -13,7 +13,7 @@ namespace miruo
         private List<Topic> topics;
         public TextControler myTextControler;
         public float smileToJump;
-
+        public WebcamHumanBeauty mywebcam;
         public int emoMode;
         public GameObject playerObj;
         public Rigidbody playerRig;
@@ -36,6 +36,9 @@ namespace miruo
         // Update is called once per frame
         void Update()
         {
+
+            smileToJump = mywebcam.smileMark - 4.5f;
+            smileToJump = smileToJump / 3f;
             if (couldReceive)
             {
                 if (Input.GetKey(KeyCode.Space))
@@ -91,7 +94,6 @@ namespace miruo
                     moveMode = 2;
                 }
             }
-
             if (couldReceive)
             {
                 playerRig.AddForce(new Vector3(0, 20, 0) * smileToJump);
