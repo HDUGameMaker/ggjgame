@@ -68,10 +68,18 @@ namespace miruo
                     {
                         StopCoroutine(audioCor);
                     }
-                    nowTopic = nowTopic.rightTopic.GetComponent<TopicControler>().mytopic;
-                    couldGoNextTopic = false;
-                    nowTopicCor = StartCoroutine(TopicCount());
-                    audioCor = StartCoroutine(AudioCount());
+                    if(nowTopic.rightTopic == null)
+                    {
+                        KillRobot();
+                    }
+                    else
+                    {
+                        nowTopic = nowTopic.rightTopic.GetComponent<TopicControler>().mytopic;
+                        couldGoNextTopic = false;
+                        nowTopicCor = StartCoroutine(TopicCount());
+                        audioCor = StartCoroutine(AudioCount());
+                    }
+                   
                 }
             }
 
@@ -84,10 +92,18 @@ namespace miruo
                     {
                         StopCoroutine(audioCor);
                     }
-                    nowTopic = nowTopic.nextTopic.GetComponent<TopicControler>().mytopic;
-                    couldGoNextTopic = false;
-                    nowTopicCor = StartCoroutine(TopicCount());
-                    audioCor = StartCoroutine(AudioCount());
+                    if (nowTopic.nextTopic == null)
+                    {
+                        KillRobot();
+                    }
+                    else
+                    {
+                        nowTopic = nowTopic.nextTopic.GetComponent<TopicControler>().mytopic;
+                        couldGoNextTopic = false;
+                        nowTopicCor = StartCoroutine(TopicCount());
+                        audioCor = StartCoroutine(AudioCount());
+                    }
+                    
                 }
                 else
                 {
