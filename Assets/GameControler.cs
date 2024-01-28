@@ -31,15 +31,18 @@ namespace miruo
         private bool couldGoNextTopic;
         private Vector3 startPos;
         private int nowForwardState;
+        private Coroutine audioCor;
         // Start is called before the first frame update
         void Start()
         {
             nowForwardState = 0;
             startPos = playerObj.transform.position;
             moveMode = 1;
+            myParti.Play();
             nowTopic = startTopic.transform.GetComponent<TopicControler>().mytopic;
             couldGoNextTopic = false;
             nowTopicCor = StartCoroutine(TopicCount());
+            audioCor = StartCoroutine(AudioCount());
         }
         // Update is called once per frame
         void Update()
@@ -65,10 +68,11 @@ namespace miruo
                 if (nowTopicCor != null)
                 {
                     StopCoroutine(nowTopicCor);
+                    StopAllCoroutines();
                     nowTopic = nowTopic.rightTopic.GetComponent<TopicControler>().mytopic;
                     couldGoNextTopic = false;
                     nowTopicCor = StartCoroutine(TopicCount());
-
+                    audioCor = StartCoroutine(AudioCount());
                 }
             }
 
@@ -77,9 +81,11 @@ namespace miruo
             {
                 if (nowTopic.nextTopic != null)
                 {
+                    StopAllCoroutines();
                     nowTopic = nowTopic.nextTopic.GetComponent<TopicControler>().mytopic;
                     couldGoNextTopic = false;
                     nowTopicCor = StartCoroutine(TopicCount());
+                    audioCor = StartCoroutine(AudioCount());
                 }
                 else
                 {
@@ -125,10 +131,15 @@ namespace miruo
             foreach (Textstring nowText in nowTopic.texts)
             {
                 TopicShow(nowText.period);
-                myEmo.ChangeEmo(nowText.emoMode);
+                myEmo.ChangeEmo(nowText.emoMode-1);
                 yield return new WaitForSeconds(nowText.time);
             }
             couldGoNextTopic = true;
+        }
+        IEnumerator AudioCount()
+        {
+            yield return new WaitForSeconds(nowTopic.MusicTime);
+            nowTopic.topicAudio.Play();
         }
         void TopicShow(string ts)
         {
@@ -136,6 +147,7 @@ namespace miruo
         }
         public void KillRobot()//gameend
         {
+            StopAllCoroutines();
             moveMode = 0;
             myParti.Pause();
             krasusUICon.window_msg("重新载入迭代中...");
@@ -143,13 +155,14 @@ namespace miruo
         }
         public void RestartRobot()//gamerestart
         {
-            
+            StopAllCoroutines();
             myParti.Play();
             playerObj.transform.position = startPos;
             nowTopic = startTopic.GetComponent<TopicControler>().mytopic;
             moveMode = 1;
             couldGoNextTopic = false;
             nowTopicCor = StartCoroutine(TopicCount());
+            audioCor = StartCoroutine(AudioCount());
         }
         
         public void touchBox()
@@ -176,12 +189,13 @@ namespace miruo
         public Chosen mychosen;
         [Header("自然继续的下一个话题")]
         public GameObject nextTopic;
-        [Header("错误中断话题（弃用）")]
-        public GameObject leftTopic;
         [Header("玩家通过中断话题")]
         public GameObject rightTopic;
-        [Header("玩家退出话题")]
-        public GameObject exitTopic;
+        [HideInInspector]
+        public AudioSource topicAudio;
+        [Header("音效跳出时间")]
+        public float MusicTime;
+
     }
     [Serializable]
     public class Textstring
