@@ -81,3 +81,5 @@ crashlytics-build.properties
 /Assets/Fonts/*
 Assets/PixelChinese SDF.asset
 Assets/PixelChinese SDF.asset.meta
+Assets/RenderTexture/New Render Texture.renderTexture
+Assets/RenderTexture/New Render Texture.renderTexture
