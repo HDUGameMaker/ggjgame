@@ -14,9 +14,6 @@ namespace miruo
         public float smileToJump;
         public WebcamHumanBeauty mywebcam;
         public int emoMode;
-        
-        //0~8
-        //0是略微笑，1是大笑，2是笑哭，3是囧，4是害怕，5是惊讶，6是无语or淡漠，7是萨卡班甲鱼（这个有什么意义吗），8是无奈
         public GameObject playerObj;
         public Rigidbody playerRig;
         public GameObject startTopic;
@@ -24,6 +21,8 @@ namespace miruo
         public MiruoEmoControler myEmo;
         public UIcontroler krasusUICon;
         public AudioSource bgmAudio;
+        public TextMeshProUGUI smileText;
+        private bool displaySmile;
         private bool isGoToRight;
         private int moveMode;
         private bool couldReceive;
@@ -38,13 +37,13 @@ namespace miruo
         {
             playerObj.SetActive(false);
             StartCoroutine(GameCount());
-            
-            
+            displaySmile = false;
+            StartCoroutine(SmileText());
         }
         // Update is called once per frame
         void Update()
         {
-
+            
             smileToJump = mywebcam.smileMark - 4.5f;
             smileToJump = smileToJump / 3f;
             if (couldReceive)
@@ -132,6 +131,17 @@ namespace miruo
         {
             StartCoroutine(GameStart());
         }
+        IEnumerator SmileText()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(0.3f);
+                if (displaySmile)
+                {
+                    smileText.text = "微笑度:\n" + smileToJump.ToString();
+                }
+            }
+        }
         IEnumerator TopicCount()
         {
             yield return null;
@@ -153,6 +163,7 @@ namespace miruo
             yield return new WaitForSeconds(0.1f);
             krasusUICon.state_Change(0);
             yield return new WaitForSeconds(3f);
+            displaySmile = true;
             playerObj.SetActive(true);
             nowForwardState = 0;
             bgmAudio.Play();
@@ -170,6 +181,7 @@ namespace miruo
         }
         public void KillRobot()//gameend
         {
+            displaySmile = false;
             Debug.Log("游戏结束");   
             StopAllCoroutines();
             bgmAudio.Stop();
@@ -184,6 +196,7 @@ namespace miruo
             StopAllCoroutines();
             bgmAudio.Play();
             myParti.Play();
+            displaySmile = true;
             playerObj.transform.position = startPos;
             nowTopic = startTopic.GetComponent<TopicControler>().mytopic;
             moveMode = 1;
@@ -191,6 +204,7 @@ namespace miruo
             nowTopicCor = StartCoroutine(TopicCount());
             audioCor = StartCoroutine(AudioCount());
             StartCoroutine(GameCount());
+            StartCoroutine(SmileText());
         }
         IEnumerator GameCount()
         {
