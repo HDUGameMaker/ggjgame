@@ -2272,7 +2272,7 @@ MonoBehaviour:
   emoMode: 0
   playerObj: {fileID: 596809874}
   playerRig: {fileID: 596809879}
-  startTopic: {fileID: 525662920}
+  startTopic: {fileID: 1712921489}
   myParti: {fileID: 641478153}
   myEmo: {fileID: 565863569}
   krasusUICon: {fileID: 1823819163}
@@ -8740,7 +8740,7 @@ PrefabInstance:
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 127
+      value: 146
       objectReference: {fileID: 0}
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
@@ -10065,7 +10065,7 @@ PrefabInstance:
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 355
+      value: 278
       objectReference: {fileID: 0}
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
@@ -11214,7 +11214,7 @@ PrefabInstance:
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 507
+      value: 432
       objectReference: {fileID: 0}
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
@@ -11372,7 +11372,7 @@ PrefabInstance:
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 700
+      value: 570
       objectReference: {fileID: 0}
     - target: {fileID: 20450014056843958, guid: 0933c8b07b137994389c1e60ff203ba2,
         type: 3}
@@ -11439,6 +11439,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0933c8b07b137994389c1e60ff203ba2, type: 3}
+--- !u!1 &1712921489 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4174875635316369741, guid: 9c2863016621fbf44a31a05bacd9fa46,
+    type: 3}
+  m_PrefabInstance: {fileID: 1856762345}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1761320683
 GameObject:
   m_ObjectHideFlags: 0
