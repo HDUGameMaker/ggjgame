@@ -172,7 +172,10 @@ namespace miruo
         IEnumerator AudioCount()
         {
             yield return new WaitForSeconds(nowTopic.MusicTime);
-            nowTopic.topicAudio.Play();
+            if (nowTopic.topicAudio != null)
+            {
+                nowTopic.topicAudio.Play();
+            }
         }
         IEnumerator GameStart()
         {

@@ -1761,7 +1761,7 @@ PrefabInstance:
     - target: {fileID: 3906909396150550387, guid: e83b9ec521ffcd741a6e136cdcf33c62,
         type: 3}
       propertyPath: mytopic.texts.Array.data[0].period
-      value: "\u7B11\u5BB9\u9608\u503C\u68C0\u6D4B\uFF1A\u54D4\u54D4\u54D4\u3002"
+      value: "\u7B11\u5BB9\u6570\u503C\u68C0\u6D4B\uFF1A\u561F\u561F\u561F\u3002"
       objectReference: {fileID: 0}
     - target: {fileID: 3906909396150550387, guid: e83b9ec521ffcd741a6e136cdcf33c62,
         type: 3}
