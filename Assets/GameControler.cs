@@ -8,8 +8,8 @@ namespace miruo
 {
     public class GameControler : MonoBehaviour
     {
+        //public KrasusGame krasusControler;
         public TextMeshProUGUI speakText;
-        private List<Topic> topics;
         public TextControler myTextControler;
         public float smileToJump;
         public WebcamHumanBeauty mywebcam;
@@ -25,11 +25,12 @@ namespace miruo
         private Topic nowTopic;
         private Coroutine nowTopicCor;
         private bool couldGoNextTopic;
+        private Vector3 startPos;
         // Start is called before the first frame update
         void Start()
         {
+            startPos = playerObj.transform.position;
             moveMode = 1;
-            List<Transform> childList = new List<Transform>();
             nowTopic = startTopic.transform.GetComponent<TopicControler>().mytopic;
             couldGoNextTopic = false;
             nowTopicCor = StartCoroutine(TopicCount());
@@ -126,16 +127,27 @@ namespace miruo
         {
             myTextControler.displayText(ts);
         }
-        void KillRobot()
+        void KillRobot()//gameend
         {
-
+            moveMode = 0;
+            
         }
+        void RestartRobot()//gameend
+        {
+            Debug.Log("可以重新开始游戏");
+            playerObj.transform.position = startPos;
+            nowTopic = startTopic.GetComponent<TopicControler>().mytopic;
+            moveMode = 1;
+            couldGoNextTopic = false;
+            nowTopicCor = StartCoroutine(TopicCount());
+        }
+        
         public void touchBox()
         {
             moveMode = 0;
             couldReceive = true;
         }
-        public void exitBox()
+        public void exitBox()//通过
         {
             couldReceive = false;
             moveMode = 1;
