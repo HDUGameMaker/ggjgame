@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Rect = UnityEngine.Rect;
+using TMPro;
  
 public class WebcamHumanBeauty : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class WebcamHumanBeauty : MonoBehaviour
     private Texture2D testRawT2D;
     private OpenCVForUnity.CoreModule.Rect faceRect;
     #endregion
+    
+    public TextMeshProUGUI confidenceText;
  
     private void Start()
     {
@@ -66,6 +69,7 @@ public class WebcamHumanBeauty : MonoBehaviour
                 smileMark = CalculateSmileDegree(landmarks);
                 //draw landmark points
                 faceLandmarkDetector.DrawDetectLandmarkResult<Color32>(colors, texture.width, texture.height, 2, true, 0, 255, 0, 255);
+                confidenceText.text = smileMark.ToString();
             }
             //draw face rect
             faceLandmarkDetector.DrawDetectResult<Color32>(colors, texture.width, texture.height, 4, true, 255, 0, 0, 255, 2);
