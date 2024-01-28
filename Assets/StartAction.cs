@@ -30,13 +30,14 @@ public class StartAction : MonoBehaviour
         Vector2 rawImageSize = rectTransform.sizeDelta;
 
         // Check for collision with the canvas boundaries and bounce back
-        if (rectTransform.anchoredPosition.x + rawImageSize.x / 2 > canvasSize.x / 2 || rectTransform.anchoredPosition.x - rawImageSize.x / 2 < -canvasSize.x / 2)
-        {
-            direction.x = -direction.x;
-        }
         if (rectTransform.anchoredPosition.y + rawImageSize.y / 2 > canvasSize.y / 2 || rectTransform.anchoredPosition.y - rawImageSize.y / 2 < -canvasSize.y / 2)
         {
             direction.y = -direction.y;
         }
+        if (rectTransform.anchoredPosition.x + rawImageSize.x / 2 > canvasSize.x / 2 || rectTransform.anchoredPosition.x - rawImageSize.x / 2 < -canvasSize.x / 2)
+        {
+            direction.x = -direction.x;
+        }
+        
     }
 }

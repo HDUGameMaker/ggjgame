@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using miruo;
 public class UIcontroler : MonoBehaviour
 {
     public GameObject window_left;
@@ -31,7 +31,7 @@ public class UIcontroler : MonoBehaviour
     public void state_Change(int state)
     {
         window_left.SetActive(true);
-        window_left.GetComponentInChildren<TextMeshProUGUI>().text = leftmsgs[state];
+        window_left.GetComponent<TextControler>().displayText(leftmsgs[state]);
         if (state == 6)
         {
             window_left.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0.5f, 0, 0, 1);
