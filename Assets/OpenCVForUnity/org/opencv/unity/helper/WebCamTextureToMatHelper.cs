@@ -1,8 +1,7 @@
-#if !OPENCV_DONT_USE_WEBCAMTEXTURE_API
+﻿#if !OPENCV_DONT_USE_WEBCAMTEXTURE_API
+#if !(PLATFORM_LUMIN && !UNITY_EDITOR)
 
 using OpenCVForUnity.CoreModule;
-using OpenCVForUnity.ImgprocModule;
-using OpenCVForUnity.UtilsModule;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -12,10 +11,8 @@ using UnityEngine.Serialization;
 namespace OpenCVForUnity.UnityUtils.Helper
 {
     /// <summary>
-    /// WebCamTexture to mat helper.
-    /// v 1.1.6
-    /// 
-    /// By setting outputColorFormat to RGBA, processing that does not include extra color conversion is performed.
+    /// WebcamTexture to mat helper.
+    /// v 1.1.1
     /// </summary>
     public class WebCamTextureToMatHelper : MonoBehaviour
     {
@@ -30,11 +27,10 @@ namespace OpenCVForUnity.UnityUtils.Helper
             get { return _requestedDeviceName; }
             set
             {
-                if (_requestedDeviceName != value)
+                _requestedDeviceName = value;
+                if (hasInitDone)
                 {
-                    _requestedDeviceName = value;
-                    if (hasInitDone)
-                        Initialize();
+                    Initialize();
                 }
             }
         }
@@ -50,12 +46,10 @@ namespace OpenCVForUnity.UnityUtils.Helper
             get { return _requestedWidth; }
             set
             {
-                int _value = (int)Mathf.Clamp(value, 0f, float.MaxValue);
-                if (_requestedWidth != _value)
+                _requestedWidth = (int)Mathf.Clamp(value, 0f, float.MaxValue);
+                if (hasInitDone)
                 {
-                    _requestedWidth = _value;
-                    if (hasInitDone)
-                        Initialize();
+                    Initialize();
                 }
             }
         }
@@ -71,12 +65,10 @@ namespace OpenCVForUnity.UnityUtils.Helper
             get { return _requestedHeight; }
             set
             {
-                int _value = (int)Mathf.Clamp(value, 0f, float.MaxValue);
-                if (_requestedHeight != _value)
+                _requestedHeight = (int)Mathf.Clamp(value, 0f, float.MaxValue);
+                if (hasInitDone)
                 {
-                    _requestedHeight = _value;
-                    if (hasInitDone)
-                        Initialize();
+                    Initialize();
                 }
             }
         }
@@ -92,11 +84,10 @@ namespace OpenCVForUnity.UnityUtils.Helper
             get { return _requestedIsFrontFacing; }
             set
             {
-                if (_requestedIsFrontFacing != value)
+                _requestedIsFrontFacing = value;
+                if (hasInitDone)
                 {
-                    _requestedIsFrontFacing = value;
-                    if (hasInitDone)
-                        Initialize(_requestedIsFrontFacing, requestedFPS, rotate90Degree);
+                    Initialize(_requestedIsFrontFacing, requestedFPS, rotate90Degree);
                 }
             }
         }
@@ -112,18 +103,14 @@ namespace OpenCVForUnity.UnityUtils.Helper
             get { return _requestedFPS; }
             set
             {
-                float _value = Mathf.Clamp(value, -1f, float.MaxValue);
-                if (_requestedFPS != _value)
+                _requestedFPS = Mathf.Clamp(value, -1f, float.MaxValue);
+                if (hasInitDone)
                 {
-                    _requestedFPS = _value;
-                    if (hasInitDone)
-                    {
-                        bool isPlaying = IsPlaying();
-                        Stop();
-                        webCamTexture.requestedFPS = _requestedFPS;
-                        if (isPlaying)
-                            Play();
-                    }
+                    bool isPlaying = IsPlaying();
+                    Stop();
+                    webCamTexture.requestedFPS = _requestedFPS;
+                    if (isPlaying)
+                        Play();
                 }
             }
         }
@@ -139,11 +126,10 @@ namespace OpenCVForUnity.UnityUtils.Helper
             get { return _rotate90Degree; }
             set
             {
-                if (_rotate90Degree != value)
+                _rotate90Degree = value;
+                if (hasInitDone)
                 {
-                    _rotate90Degree = value;
-                    if (hasInitDone)
-                        Initialize();
+                    Initialize();
                 }
             }
         }
@@ -173,30 +159,10 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
         /// <summary>
-        /// Select the output color format.
-        /// </summary>
-        [SerializeField, FormerlySerializedAs("outputColorFormat"), TooltipAttribute("Select the output color format.")]
-        protected ColorFormat _outputColorFormat = ColorFormat.RGBA;
-
-        public virtual ColorFormat outputColorFormat
-        {
-            get { return _outputColorFormat; }
-            set
-            {
-                if (_outputColorFormat != value)
-                {
-                    _outputColorFormat = value;
-                    if (hasInitDone)
-                        Initialize();
-                }
-            }
-        }
-
-        /// <summary>
         /// The number of frames before the initialization process times out.
         /// </summary>
         [SerializeField, FormerlySerializedAs("timeoutFrameCount"), TooltipAttribute("The number of frames before the initialization process times out.")]
-        protected int _timeoutFrameCount = 1500;
+        protected int _timeoutFrameCount = 300;
 
         public virtual int timeoutFrameCount
         {
@@ -235,11 +201,6 @@ namespace OpenCVForUnity.UnityUtils.Helper
         protected Mat frameMat;
 
         /// <summary>
-        /// The base mat.
-        /// </summary>
-        protected Mat baseMat;
-
-        /// <summary>
         /// The rotated frame mat
         /// </summary>
         protected Mat rotatedFrameMat;
@@ -248,11 +209,6 @@ namespace OpenCVForUnity.UnityUtils.Helper
         /// The buffer colors.
         /// </summary>
         protected Color32[] colors;
-
-        /// <summary>
-        /// The base color format.
-        /// </summary>
-        protected ColorFormat baseColorFormat = ColorFormat.RGBA;
 
         /// <summary>
         /// Indicates whether this instance is waiting for initialization to complete.
@@ -292,21 +248,13 @@ namespace OpenCVForUnity.UnityUtils.Helper
         /// </summary>
         public bool avoidAndroidFrontCameraLowLightIssue = false;
 
-        public enum ColorFormat : int
-        {
-            GRAY = 0,
-            RGB,
-            BGR,
-            RGBA,
-            BGRA,
-        }
-
+        [Serializable]
         public enum ErrorCode : int
         {
             UNKNOWN = 0,
-            CAMERA_DEVICE_NOT_EXIST,
-            CAMERA_PERMISSION_DENIED,
-            TIMEOUT,
+            CAMERA_DEVICE_NOT_EXIST = 1,
+            CAMERA_PERMISSION_DENIED = 2,
+            TIMEOUT = 3,
         }
 
         [Serializable]
@@ -323,28 +271,14 @@ namespace OpenCVForUnity.UnityUtils.Helper
             _timeoutFrameCount = (int)Mathf.Clamp(_timeoutFrameCount, 0f, float.MaxValue);
         }
 
-#if !UNITY_EDITOR && !UNITY_ANDROID
-        protected bool isScreenSizeChangeWaiting = false;
-#endif
-
         // Update is called once per frame
         protected virtual void Update()
         {
             if (hasInitDone)
             {
                 // Catch the orientation change of the screen and correct the mat image to the correct direction.
-                if (screenOrientation != Screen.orientation)
+                if (screenOrientation != Screen.orientation && (screenWidth != Screen.width || screenHeight != Screen.height))
                 {
-
-#if !UNITY_EDITOR && !UNITY_ANDROID
-                    // Wait one frame until the Screen.width/Screen.height property changes.
-                    if (!isScreenSizeChangeWaiting)
-                    {
-                        isScreenSizeChangeWaiting = true;
-                        return;
-                    }
-                    isScreenSizeChangeWaiting = false;
-#endif
 
                     if (onDisposed != null)
                         onDisposed.Invoke();
@@ -354,28 +288,13 @@ namespace OpenCVForUnity.UnityUtils.Helper
                         frameMat.Dispose();
                         frameMat = null;
                     }
-                    if (baseMat != null)
-                    {
-                        baseMat.Dispose();
-                        baseMat = null;
-                    }
                     if (rotatedFrameMat != null)
                     {
                         rotatedFrameMat.Dispose();
                         rotatedFrameMat = null;
                     }
 
-                    baseMat = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4, new Scalar(0, 0, 0, 255));
-
-                    if (baseColorFormat == outputColorFormat)
-                    {
-                        frameMat = baseMat;
-                    }
-                    else
-                    {
-                        frameMat = new Mat(baseMat.rows(), baseMat.cols(), CvType.CV_8UC(Channels(outputColorFormat)), new Scalar(0, 0, 0, 255));
-                    }
-
+                    frameMat = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4, new Scalar(0, 0, 0, 255));
                     screenOrientation = Screen.orientation;
                     screenWidth = Screen.width;
                     screenHeight = Screen.height;
@@ -396,17 +315,22 @@ namespace OpenCVForUnity.UnityUtils.Helper
                         isRotatedFrame = true;
 #endif
                     if (isRotatedFrame)
-                        rotatedFrameMat = new Mat(frameMat.cols(), frameMat.rows(), CvType.CV_8UC(Channels(outputColorFormat)), new Scalar(0, 0, 0, 255));
+                        rotatedFrameMat = new Mat(webCamTexture.width, webCamTexture.height, CvType.CV_8UC4, new Scalar(0, 0, 0, 255));
 
                     if (onInitialized != null)
                         onInitialized.Invoke();
+                }
+                else
+                {
+                    screenWidth = Screen.width;
+                    screenHeight = Screen.height;
                 }
             }
         }
 
         protected virtual IEnumerator OnApplicationFocus(bool hasFocus)
         {
-#if ((UNITY_IOS || UNITY_WEBGL) && UNITY_2018_1_OR_NEWER) || (UNITY_ANDROID && UNITY_2018_3_OR_NEWER)
+#if (UNITY_IOS && UNITY_2018_1_OR_NEWER) || (UNITY_ANDROID && UNITY_2018_3_OR_NEWER)
             yield return null;
 
             if (isUserRequestingPermission && hasFocus)
@@ -549,7 +473,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
             isInitWaiting = true;
 
-#if (UNITY_IOS || UNITY_WEBGL || UNITY_ANDROID) && !UNITY_EDITOR
+#if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
             // Checks camera permission state.
             IEnumerator coroutine = hasUserAuthorizedCameraPermission();
             yield return coroutine;
@@ -699,17 +623,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
                     if (colors == null || colors.Length != webCamTexture.width * webCamTexture.height)
                         colors = new Color32[webCamTexture.width * webCamTexture.height];
 
-                    baseMat = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4);
-
-                    if (baseColorFormat == outputColorFormat)
-                    {
-                        frameMat = baseMat;
-                    }
-                    else
-                    {
-                        frameMat = new Mat(baseMat.rows(), baseMat.cols(), CvType.CV_8UC(Channels(outputColorFormat)), new Scalar(0, 0, 0, 255));
-                    }
-
+                    frameMat = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4);
                     screenOrientation = Screen.orientation;
                     screenWidth = Screen.width;
                     screenHeight = Screen.height;
@@ -730,7 +644,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
                         isRotatedFrame = true;
 #endif
                     if (isRotatedFrame)
-                        rotatedFrameMat = new Mat(frameMat.cols(), frameMat.rows(), CvType.CV_8UC(Channels(outputColorFormat)), new Scalar(0, 0, 0, 255));
+                        rotatedFrameMat = new Mat(webCamTexture.width, webCamTexture.height, CvType.CV_8UC4);
 
                     isInitWaiting = false;
                     hasInitDone = true;
@@ -765,7 +679,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
         /// </summary>
         protected virtual IEnumerator hasUserAuthorizedCameraPermission()
         {
-#if (UNITY_IOS || UNITY_WEBGL) && UNITY_2018_1_OR_NEWER
+#if UNITY_IOS && UNITY_2018_1_OR_NEWER
             UserAuthorization mode = UserAuthorization.WebCam;
             if (!Application.HasUserAuthorization(mode))
             {
@@ -784,11 +698,11 @@ namespace OpenCVForUnity.UnityUtils.Helper
 #endif
         }
 
-#if ((UNITY_IOS || UNITY_WEBGL) && UNITY_2018_1_OR_NEWER) || (UNITY_ANDROID && UNITY_2018_3_OR_NEWER)
+#if (UNITY_IOS && UNITY_2018_1_OR_NEWER) || (UNITY_ANDROID && UNITY_2018_3_OR_NEWER)
         protected bool isUserRequestingPermission;
 #endif
 
-#if (UNITY_IOS || UNITY_WEBGL) && UNITY_2018_1_OR_NEWER
+#if UNITY_IOS && UNITY_2018_1_OR_NEWER
         protected virtual IEnumerator RequestUserAuthorization(UserAuthorization mode)
         {
             isUserRequestingPermission = true;
@@ -974,8 +888,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
         /// <summary>
         /// Gets the mat of the current frame.
-        /// The Mat object's type is 'CV_8UC4' or 'CV_8UC3' or 'CV_8UC1' (ColorFormat is determined by the outputColorFormat setting).
-        /// Please do not dispose of the returned mat as it will be reused.
+        /// The Mat object's type is 'CV_8UC4' (RGBA).
         /// </summary>
         /// <returns>The mat of the current frame.</returns>
         public virtual Mat GetMat()
@@ -985,15 +898,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
                 return (rotatedFrameMat != null) ? rotatedFrameMat : frameMat;
             }
 
-            if (baseColorFormat == outputColorFormat)
-            {
-                Utils.webCamTextureToMat(webCamTexture, frameMat, colors, false);
-            }
-            else
-            {
-                Utils.webCamTextureToMat(webCamTexture, baseMat, colors, false);
-                Imgproc.cvtColor(baseMat, frameMat, ColorConversionCodes(baseColorFormat, outputColorFormat));
-            }
+            Utils.webCamTextureToMat(webCamTexture, frameMat, colors, false);
 
 #if !UNITY_EDITOR && !(UNITY_STANDALONE || UNITY_WEBGL)
             if (rotatedFrameMat != null)
@@ -1064,18 +969,30 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
             if (webCamDevice.isFrontFacing)
             {
-                if (webCamTexture.videoRotationAngle == 0 || webCamTexture.videoRotationAngle == 90)
+                if (webCamTexture.videoRotationAngle == 0)
                 {
                     flipCode = -1;
                 }
-                else if (webCamTexture.videoRotationAngle == 180 || webCamTexture.videoRotationAngle == 270)
+                else if (webCamTexture.videoRotationAngle == 90)
+                {
+                    flipCode = -1;
+                }
+                if (webCamTexture.videoRotationAngle == 180)
+                {
+                    flipCode = int.MinValue;
+                }
+                else if (webCamTexture.videoRotationAngle == 270)
                 {
                     flipCode = int.MinValue;
                 }
             }
             else
             {
-                if (webCamTexture.videoRotationAngle == 180 || webCamTexture.videoRotationAngle == 270)
+                if (webCamTexture.videoRotationAngle == 180)
+                {
+                    flipCode = 1;
+                }
+                else if (webCamTexture.videoRotationAngle == 270)
                 {
                     flipCode = 1;
                 }
@@ -1127,63 +1044,6 @@ namespace OpenCVForUnity.UnityUtils.Helper
             }
         }
 
-        protected virtual int Channels(ColorFormat type)
-        {
-            switch (type)
-            {
-                case ColorFormat.GRAY:
-                    return 1;
-                case ColorFormat.RGB:
-                case ColorFormat.BGR:
-                    return 3;
-                case ColorFormat.RGBA:
-                case ColorFormat.BGRA:
-                    return 4;
-                default:
-                    return 4;
-            }
-        }
-        protected virtual int ColorConversionCodes(ColorFormat srcType, ColorFormat dstType)
-        {
-            if (srcType == ColorFormat.GRAY)
-            {
-                if (dstType == ColorFormat.RGB) return Imgproc.COLOR_GRAY2RGB;
-                else if (dstType == ColorFormat.BGR) return Imgproc.COLOR_GRAY2BGR;
-                else if (dstType == ColorFormat.RGBA) return Imgproc.COLOR_GRAY2RGBA;
-                else if (dstType == ColorFormat.BGRA) return Imgproc.COLOR_GRAY2BGRA;
-            }
-            else if (srcType == ColorFormat.RGB)
-            {
-                if (dstType == ColorFormat.GRAY) return Imgproc.COLOR_RGB2GRAY;
-                else if (dstType == ColorFormat.BGR) return Imgproc.COLOR_RGB2BGR;
-                else if (dstType == ColorFormat.RGBA) return Imgproc.COLOR_RGB2RGBA;
-                else if (dstType == ColorFormat.BGRA) return Imgproc.COLOR_RGB2BGRA;
-            }
-            else if (srcType == ColorFormat.BGR)
-            {
-                if (dstType == ColorFormat.GRAY) return Imgproc.COLOR_BGR2GRAY;
-                else if (dstType == ColorFormat.RGB) return Imgproc.COLOR_BGR2RGB;
-                else if (dstType == ColorFormat.RGBA) return Imgproc.COLOR_BGR2RGBA;
-                else if (dstType == ColorFormat.BGRA) return Imgproc.COLOR_BGR2BGRA;
-            }
-            else if (srcType == ColorFormat.RGBA)
-            {
-                if (dstType == ColorFormat.GRAY) return Imgproc.COLOR_RGBA2GRAY;
-                else if (dstType == ColorFormat.RGB) return Imgproc.COLOR_RGBA2RGB;
-                else if (dstType == ColorFormat.BGR) return Imgproc.COLOR_RGBA2BGR;
-                else if (dstType == ColorFormat.BGRA) return Imgproc.COLOR_RGBA2BGRA;
-            }
-            else if (srcType == ColorFormat.BGRA)
-            {
-                if (dstType == ColorFormat.GRAY) return Imgproc.COLOR_BGRA2GRAY;
-                else if (dstType == ColorFormat.RGB) return Imgproc.COLOR_BGRA2RGB;
-                else if (dstType == ColorFormat.BGR) return Imgproc.COLOR_BGRA2BGR;
-                else if (dstType == ColorFormat.RGBA) return Imgproc.COLOR_BGRA2RGBA;
-            }
-
-            return -1;
-        }
-
         /// <summary>
         /// Gets the buffer colors.
         /// </summary>
@@ -1225,11 +1085,6 @@ namespace OpenCVForUnity.UnityUtils.Helper
                 frameMat.Dispose();
                 frameMat = null;
             }
-            if (baseMat != null)
-            {
-                baseMat.Dispose();
-                baseMat = null;
-            }
             if (rotatedFrameMat != null)
             {
                 rotatedFrameMat.Dispose();
@@ -1265,4 +1120,5 @@ namespace OpenCVForUnity.UnityUtils.Helper
     }
 }
 
+#endif
 #endif
