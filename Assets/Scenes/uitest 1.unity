@@ -357,13 +357,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 587525350}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
+      - m_Target: {fileID: 587525351}
+        m_TargetAssemblyTypeName: miruo.GameControler, Assembly-CSharp
+        m_MethodName: RestartRobot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2091,8 +2091,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a6ddef974e98534f88f2b9bce4db33e, type: 2}
-  m_sharedMaterial: {fileID: -4231700365810497632, guid: 4a6ddef974e98534f88f2b9bce4db33e,
+  m_fontAsset: {fileID: 11400000, guid: 52b09e444c318344ab8895b519236876, type: 2}
+  m_sharedMaterial: {fileID: -4231700365810497632, guid: 52b09e444c318344ab8895b519236876,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -8623,7 +8623,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -334, y: 166.8}
+  m_AnchoredPosition: {x: -355, y: 106}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &930805938
@@ -8648,8 +8648,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a6ddef974e98534f88f2b9bce4db33e, type: 2}
-  m_sharedMaterial: {fileID: -4231700365810497632, guid: 4a6ddef974e98534f88f2b9bce4db33e,
+  m_fontAsset: {fileID: 11400000, guid: 52b09e444c318344ab8895b519236876, type: 2}
+  m_sharedMaterial: {fileID: -4231700365810497632, guid: 52b09e444c318344ab8895b519236876,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -10464,8 +10464,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -714, y: 293.39993}
-  m_SizeDelta: {x: 372.64, y: 374.28}
+  m_AnchoredPosition: {x: -714, y: 259.76984}
+  m_SizeDelta: {x: 372.64, y: 441.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1347818039
 MonoBehaviour:
@@ -10725,7 +10725,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8BB0\u5F97\u628A\u6587\u4EF6\u7406\u4E00\u7406"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a6ddef974e98534f88f2b9bce4db33e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 52b09e444c318344ab8895b519236876, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -11579,8 +11579,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4a6ddef974e98534f88f2b9bce4db33e, type: 2}
-  m_sharedMaterial: {fileID: -4231700365810497632, guid: 4a6ddef974e98534f88f2b9bce4db33e,
+  m_fontAsset: {fileID: 11400000, guid: 52b09e444c318344ab8895b519236876, type: 2}
+  m_sharedMaterial: {fileID: -4231700365810497632, guid: 52b09e444c318344ab8895b519236876,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
