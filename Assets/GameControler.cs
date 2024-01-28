@@ -23,6 +23,7 @@ namespace miruo
         public ParticleSystem myParti;
         public MiruoEmoControler myEmo;
         public UIcontroler krasusUICon;
+        public AudioSource bgmAudio;
         private bool isGoToRight;
         private int moveMode;
         private bool couldReceive;
@@ -35,14 +36,10 @@ namespace miruo
         // Start is called before the first frame update
         void Start()
         {
-            nowForwardState = 0;
-            startPos = playerObj.transform.position;
-            moveMode = 1;
-            myParti.Play();
-            nowTopic = startTopic.transform.GetComponent<TopicControler>().mytopic;
-            couldGoNextTopic = false;
-            nowTopicCor = StartCoroutine(TopicCount());
-            audioCor = StartCoroutine(AudioCount());
+            playerObj.SetActive(false);
+            StartCoroutine(GameCount());
+            
+            
         }
         // Update is called once per frame
         void Update()
@@ -68,7 +65,10 @@ namespace miruo
                 if (nowTopicCor != null)
                 {
                     StopCoroutine(nowTopicCor);
-                    StopAllCoroutines();
+                    if(audioCor != null)
+                    {
+                        StopCoroutine(audioCor);
+                    }
                     nowTopic = nowTopic.rightTopic.GetComponent<TopicControler>().mytopic;
                     couldGoNextTopic = false;
                     nowTopicCor = StartCoroutine(TopicCount());
@@ -81,7 +81,10 @@ namespace miruo
             {
                 if (nowTopic.nextTopic != null)
                 {
-                    StopAllCoroutines();
+                    if (audioCor != null)
+                    {
+                        StopCoroutine(audioCor);
+                    }
                     nowTopic = nowTopic.nextTopic.GetComponent<TopicControler>().mytopic;
                     couldGoNextTopic = false;
                     nowTopicCor = StartCoroutine(TopicCount());
@@ -125,6 +128,10 @@ namespace miruo
                 playerRig.velocity = new Vector3(Mathf.Lerp(playerRig.velocity.x, 0f, 0.05f), playerRig.velocity.y, playerRig.velocity.z);
             }
         }
+        public void GameLoad()
+        {
+            StartCoroutine(GameStart());
+        }
         IEnumerator TopicCount()
         {
             yield return null;
@@ -141,21 +148,41 @@ namespace miruo
             yield return new WaitForSeconds(nowTopic.MusicTime);
             nowTopic.topicAudio.Play();
         }
+        IEnumerator GameStart()
+        {
+            yield return new WaitForSeconds(0.1f);
+            krasusUICon.state_Change(0);
+            yield return new WaitForSeconds(3f);
+            playerObj.SetActive(true);
+            nowForwardState = 0;
+            bgmAudio.Play();
+            startPos = playerObj.transform.position;
+            moveMode = 1;
+            myParti.Play();
+            nowTopic = startTopic.transform.GetComponent<TopicControler>().mytopic;
+            couldGoNextTopic = false;
+            nowTopicCor = StartCoroutine(TopicCount());
+            audioCor = StartCoroutine(AudioCount());
+        }
         void TopicShow(string ts)
         {
             myTextControler.displayText(ts);
         }
         public void KillRobot()//gameend
         {
+            Debug.Log("游戏结束");   
             StopAllCoroutines();
+            bgmAudio.Stop();
             moveMode = 0;
             myParti.Pause();
-            krasusUICon.window_msg("重新载入迭代中...");
+            krasusUICon.window_msg("寄了");
             krasusUICon.state_Change(6);
         }
         public void RestartRobot()//gamerestart
         {
+            
             StopAllCoroutines();
+            bgmAudio.Play();
             myParti.Play();
             playerObj.transform.position = startPos;
             nowTopic = startTopic.GetComponent<TopicControler>().mytopic;
@@ -163,8 +190,14 @@ namespace miruo
             couldGoNextTopic = false;
             nowTopicCor = StartCoroutine(TopicCount());
             audioCor = StartCoroutine(AudioCount());
+            StartCoroutine(GameCount());
         }
-        
+        IEnumerator GameCount()
+        {
+            Debug.Log("开始计时");
+            yield return new WaitForSeconds(180);
+            KillRobot();
+        }
         public void touchBox()
         {
             moveMode = 0;
