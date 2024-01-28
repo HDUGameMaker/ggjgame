@@ -430,6 +430,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 587525350}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &165495938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1736,6 +1748,7 @@ MonoBehaviour:
   startTopic: {fileID: 1142739321}
   myParti: {fileID: 641478153}
   myEmo: {fileID: 565863569}
+  krasusUICon: {fileID: 1823819163}
 --- !u!4 &587525352
 Transform:
   m_ObjectHideFlags: 0
@@ -7732,8 +7745,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: joke
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a48993a9426de1143826f40343df792c, type: 2}
-  m_sharedMaterial: {fileID: -8169840358028259439, guid: a48993a9426de1143826f40343df792c,
+  m_fontAsset: {fileID: 11400000, guid: 4a6ddef974e98534f88f2b9bce4db33e, type: 2}
+  m_sharedMaterial: {fileID: -4231700365810497632, guid: 4a6ddef974e98534f88f2b9bce4db33e,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -8764,7 +8777,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1165865557
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10466,10 +10479,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "2024/1/28\n\u64CD\u4F5C\u5458\uFF1ADr.xof\n\u8FED\u4EE3\uFF1A3\n\u9762\u90E8\u8BC6\u522B\uFF1A\u63A5\u5165\n\u4EBA\u683C\u6A21\u62DF\uFF1A\u6B63\u5E38\n\u8FD0\u884C\u4E2D......"
+  m_text: "2024/1/28\n\u64CD\u4F5C\u5458\uFF1ADr.xof\n\u8FED\u4EE3\uFF1A0\n\u9762\u90E8\u8BC6\u522B\uFF1A\u63A5\u5165\n\u4EBA\u683C\u6A21\u62DF\uFF1A\u6B63\u5E38\n\u8FD0\u884C\u4E2D......"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4a6ddef974e98534f88f2b9bce4db33e, type: 2}
+  m_sharedMaterial: {fileID: -4231700365810497632, guid: 4a6ddef974e98534f88f2b9bce4db33e,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10631,6 +10645,7 @@ GameObject:
   - component: {fileID: 1823819159}
   - component: {fileID: 1823819158}
   - component: {fileID: 1823819162}
+  - component: {fileID: 1823819163}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -10742,6 +10757,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.1
   realtext: {fileID: 930805938}
+--- !u!114 &1823819163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823819157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19fb5fc98dfe8640bc377924fd1f4dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  window_left: {fileID: 1347818037}
+  window_over: {fileID: 1165865556}
 --- !u!1 &2031765306
 GameObject:
   m_ObjectHideFlags: 0

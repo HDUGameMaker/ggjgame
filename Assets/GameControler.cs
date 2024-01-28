@@ -22,6 +22,7 @@ namespace miruo
         public GameObject startTopic;
         public ParticleSystem myParti;
         public MiruoEmoControler myEmo;
+        public UIcontroler krasusUICon;
         private bool isGoToRight;
         private int moveMode;
         private bool couldReceive;
@@ -29,9 +30,11 @@ namespace miruo
         private Coroutine nowTopicCor;
         private bool couldGoNextTopic;
         private Vector3 startPos;
+        private int nowForwardState;
         // Start is called before the first frame update
         void Start()
         {
+            nowForwardState = 0;
             startPos = playerObj.transform.position;
             moveMode = 1;
             nowTopic = startTopic.transform.GetComponent<TopicControler>().mytopic;
@@ -131,15 +134,17 @@ namespace miruo
         {
             myTextControler.displayText(ts);
         }
-        void KillRobot()//gameend
+        public void KillRobot()//gameend
         {
             moveMode = 0;
             myParti.Pause();
+            krasusUICon.window_msg("重新载入迭代中...");
+            krasusUICon.state_Change(6);
         }
-        void RestartRobot()//gamerestart
+        public void RestartRobot()//gamerestart
         {
+            
             myParti.Play();
-            Debug.Log("可以重新开始游戏");
             playerObj.transform.position = startPos;
             nowTopic = startTopic.GetComponent<TopicControler>().mytopic;
             moveMode = 1;
@@ -154,10 +159,12 @@ namespace miruo
         }
         public void exitBox()//通过
         {
+            
             couldReceive = false;
             moveMode = 1;
             isGoToRight = true;
-            
+            krasusUICon.state_Change(nowForwardState);
+            nowForwardState++;
         }
     }
     [Serializable]
