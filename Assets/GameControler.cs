@@ -8,28 +8,32 @@ namespace miruo
 {
     public class GameControler : MonoBehaviour
     {
+        //public KrasusGame krasusControler;
         public TextMeshProUGUI speakText;
-        private List<Topic> topics;
         public TextControler myTextControler;
         public float smileToJump;
         public WebcamHumanBeauty mywebcam;
         public int emoMode;
+        
         //0~8
         //0是略微笑，1是大笑，2是笑哭，3是囧，4是害怕，5是惊讶，6是无语or淡漠，7是萨卡班甲鱼（这个有什么意义吗），8是无奈
         public GameObject playerObj;
         public Rigidbody playerRig;
         public GameObject startTopic;
+        public ParticleSystem myParti;
+        public MiruoEmoControler myEmo;
         private bool isGoToRight;
         private int moveMode;
         private bool couldReceive;
         private Topic nowTopic;
         private Coroutine nowTopicCor;
         private bool couldGoNextTopic;
+        private Vector3 startPos;
         // Start is called before the first frame update
         void Start()
         {
+            startPos = playerObj.transform.position;
             moveMode = 1;
-            List<Transform> childList = new List<Transform>();
             nowTopic = startTopic.transform.GetComponent<TopicControler>().mytopic;
             couldGoNextTopic = false;
             nowTopicCor = StartCoroutine(TopicCount());
@@ -118,6 +122,7 @@ namespace miruo
             foreach (Textstring nowText in nowTopic.texts)
             {
                 TopicShow(nowText.period);
+                myEmo.ChangeEmo(nowText.emoMode);
                 yield return new WaitForSeconds(nowText.time);
             }
             couldGoNextTopic = true;
@@ -126,16 +131,28 @@ namespace miruo
         {
             myTextControler.displayText(ts);
         }
-        void KillRobot()
+        void KillRobot()//gameend
         {
-
+            moveMode = 0;
+            myParti.Pause();
         }
+        void RestartRobot()//gamerestart
+        {
+            myParti.Play();
+            Debug.Log("可以重新开始游戏");
+            playerObj.transform.position = startPos;
+            nowTopic = startTopic.GetComponent<TopicControler>().mytopic;
+            moveMode = 1;
+            couldGoNextTopic = false;
+            nowTopicCor = StartCoroutine(TopicCount());
+        }
+        
         public void touchBox()
         {
             moveMode = 0;
             couldReceive = true;
         }
-        public void exitBox()
+        public void exitBox()//通过
         {
             couldReceive = false;
             moveMode = 1;
@@ -164,6 +181,8 @@ namespace miruo
     {
         public float time;
         public string period;
+        //[Header("0是略微笑，1是大笑，2是笑哭，3是囧，4是害怕，5是惊讶，6是无语or淡漠，7是萨卡班甲鱼（这个有什么意义吗），8是无奈")]
+        public int emoMode;
     }
     [Serializable]
     public class Chosen
