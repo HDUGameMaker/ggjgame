@@ -25,7 +25,7 @@ namespace miruo
         public TextMeshProUGUI smileText;
         private bool displaySmile;
         private bool isGoToRight;
-        private int moveMode;
+        [SerializeField] private int moveMode;
         private bool couldReceive;
         private Topic nowTopic;
         private Coroutine nowTopicCor;
@@ -47,10 +47,14 @@ namespace miruo
         {
             autoJump = f;
         }
+        public void SpeedUp(float v)
+        {
+            Time.timeScale = v;
+        }
         // Update is called once per frame
         void Update()
         {
-            if(autoJump) smileToJump = 10f;
+            if(autoJump) smileToJump = 2f;
             else
             {
                 smileToJump = mywebcam.smileMark - 4.5f;
@@ -131,7 +135,7 @@ namespace miruo
             }
             if (couldReceive)
             {
-                if (smileToJump > 0.2f)
+                if (smileToJump > -1f)
                 {
                     moveMode = 2;
                 }
@@ -217,7 +221,7 @@ namespace miruo
             bgmAudio.Stop();
             moveMode = 0;
             myParti.Pause();
-            krasusUICon.window_msg("时间到了");
+            krasusUICon.window_msg("时间检测不通过");
             StartCoroutine(GameEnd());
             krasusUICon.state_Change(6);
         }
@@ -240,17 +244,17 @@ namespace miruo
         }
         IEnumerator GameEnd()
         {
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3f);
             krasusUICon.window_msg("这个产品和上个过于感性");
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3f);
             krasusUICon.window_msg("都是不合格产品");
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3f);
             krasusUICon.window_msg("没有存在必要，稍后就清除数据");
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3f);
             krasusUICon.window_msg("感谢您的微笑");
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3f);
             krasusUICon.window_msg("不妨放松一下脸庞");
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3f);
             krasusUICon.window_msg("我们下次再见");
         }
         IEnumerator GameCount()

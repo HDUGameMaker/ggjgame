@@ -45,6 +45,10 @@ public class UIcontroler : MonoBehaviour
         {
             window_left.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0.5f, 0, 0, 1);
         }
+        else
+        {
+            window_left.GetComponentInChildren<TextMeshProUGUI>().color = new Color(0, 0, 0, 1);
+        }
     }
 
     /// <summary>
