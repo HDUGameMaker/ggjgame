@@ -7,7 +7,8 @@ public class LightControl : MonoBehaviour
 {
     public RawImage[] lights;
     public float[] speeds;
-
+    [Range(0f, 1f)]
+    public float alphaCoefficient = 0.7f;
     // Update is called once per frame
     void Update()
     {
@@ -25,7 +26,7 @@ public class LightControl : MonoBehaviour
                     alpha = 0f;
                 }
                 Color color = lights[i].color;
-                color.a = alpha;
+                color.a = alpha*alphaCoefficient;
                 lights[i].color = color;
             }
         }
