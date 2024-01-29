@@ -257,7 +257,7 @@ namespace miruo
         {
             Debug.Log("开始计时");
             
-            for(int i =10;i>=1; i--)
+            for(int i =180;i>=1; i--)
             {
                 countText.text = "剩余时间：" + i.ToString();
                 yield return new WaitForSeconds(1);
