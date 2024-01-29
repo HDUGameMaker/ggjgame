@@ -40,12 +40,21 @@ namespace miruo
             displaySmile = false;
             StartCoroutine(SmileText());
         }
+        //åé—¨
+        private bool autoJump = false;
+        public void SetAutoJump(bool f)
+        {
+            autoJump = f;
+        }
         // Update is called once per frame
         void Update()
         {
-            
-            smileToJump = mywebcam.smileMark - 4.5f;
-            smileToJump = smileToJump / 3f;
+            if(autoJump) smileToJump = 10f;
+            else
+            {
+                smileToJump = mywebcam.smileMark - 4.5f;
+                smileToJump /= 3f;
+            }
             if (couldReceive)
             {
                 if (Input.GetKey(KeyCode.Space))
@@ -83,7 +92,7 @@ namespace miruo
                 }
             }
 
-            //Ö´ĞĞ³ÖĞø½Úµã
+            //æ‰§è¡ŒæŒç»­èŠ‚ç‚¹
             if (couldGoNextTopic)
             {
                 if (nowTopic.nextTopic != null)
@@ -108,7 +117,7 @@ namespace miruo
                 else
                 {
                     KillRobot();
-                    Debug.Log("ÓÎÏ·½áÊø");
+                    Debug.Log("æ¸¸æˆç»“æŸ");
                 }
 
             }
@@ -154,7 +163,7 @@ namespace miruo
                 yield return new WaitForSeconds(0.3f);
                 if (displaySmile)
                 {
-                    smileText.text = "Î¢Ğ¦¶È:\n" + smileToJump.ToString();
+                    smileText.text = "å¾®ç¬‘åº¦:\n" + smileToJump.ToString();
                 }
             }
         }
@@ -201,12 +210,12 @@ namespace miruo
         public void KillRobot()//gameend
         {
             displaySmile = false;
-            Debug.Log("ÓÎÏ·½áÊø");   
+            Debug.Log("æ¸¸æˆç»“æŸ");   
             StopAllCoroutines();
             bgmAudio.Stop();
             moveMode = 0;
             myParti.Pause();
-            krasusUICon.window_msg("¼ÄÁË");
+            krasusUICon.window_msg("å¯„äº†");
             krasusUICon.state_Change(6);
         }
         public void RestartRobot()//gamerestart
@@ -227,7 +236,7 @@ namespace miruo
         }
         IEnumerator GameCount()
         {
-            Debug.Log("¿ªÊ¼¼ÆÊ±");
+            Debug.Log("å¼€å§‹è®¡æ—¶");
             yield return new WaitForSeconds(180);
             KillRobot();
         }
@@ -236,7 +245,7 @@ namespace miruo
             moveMode = 0;
             couldReceive = true;
         }
-        public void exitBox()//Í¨¹ı
+        public void exitBox()//é€šè¿‡
         {
             
             couldReceive = false;
@@ -253,13 +262,13 @@ namespace miruo
         public string name;
         public List<Textstring> texts;
         public Chosen mychosen;
-        [Header("×ÔÈ»¼ÌĞøµÄÏÂÒ»¸ö»°Ìâ")]
+        [Header("è‡ªç„¶ç»§ç»­çš„ä¸‹ä¸€ä¸ªè¯é¢˜")]
         public GameObject nextTopic;
-        [Header("Íæ¼ÒÍ¨¹ıÖĞ¶Ï»°Ìâ")]
+        [Header("ç©å®¶é€šè¿‡ä¸­æ–­è¯é¢˜")]
         public GameObject rightTopic;
         [HideInInspector]
         public AudioSource topicAudio;
-        [Header("ÒôĞ§Ìø³öÊ±¼ä")]
+        [Header("éŸ³æ•ˆè·³å‡ºæ—¶é—´")]
         public float MusicTime;
 
     }
@@ -268,13 +277,13 @@ namespace miruo
     {
         public float time;
         public string period;
-        //[Header("0ÊÇÂÔÎ¢Ğ¦£¬1ÊÇ´óĞ¦£¬2ÊÇĞ¦¿Ş£¬3ÊÇ‡å£¬4ÊÇº¦ÅÂ£¬5ÊÇ¾ªÑÈ£¬6ÊÇÎŞÓïorµ­Ä®£¬7ÊÇÈø¿¨°à¼×Óã£¨Õâ¸öÓĞÊ²Ã´ÒâÒåÂğ£©£¬8ÊÇÎŞÄÎ")]
+        //[Header("0æ˜¯ç•¥å¾®ç¬‘ï¼Œ1æ˜¯å¤§ç¬‘ï¼Œ2æ˜¯ç¬‘å“­ï¼Œ3æ˜¯å›§ï¼Œ4æ˜¯å®³æ€•ï¼Œ5æ˜¯æƒŠè®¶ï¼Œ6æ˜¯æ— è¯­oræ·¡æ¼ ï¼Œ7æ˜¯è¨å¡ç­ç”²é±¼ï¼ˆè¿™ä¸ªæœ‰ä»€ä¹ˆæ„ä¹‰å—ï¼‰ï¼Œ8æ˜¯æ— å¥ˆ")]
         public int emoMode;
     }
     [Serializable]
     public class Chosen
     {
-        [Header("0ÊÇ²»ÆôÓÃ")]
+        [Header("0æ˜¯ä¸å¯ç”¨")]
         public int mode;
         public float startTime;
         public float endTime;
