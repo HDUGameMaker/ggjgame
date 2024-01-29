@@ -21,6 +21,7 @@ namespace miruo
         public MiruoEmoControler myEmo;
         public UIcontroler krasusUICon;
         public AudioSource bgmAudio;
+        public TextMeshProUGUI countText;
         public TextMeshProUGUI smileText;
         private bool displaySmile;
         private bool isGoToRight;
@@ -36,7 +37,7 @@ namespace miruo
         void Start()
         {
             playerObj.SetActive(false);
-            StartCoroutine(GameCount());
+            
             displaySmile = false;
             StartCoroutine(SmileText());
         }
@@ -191,6 +192,7 @@ namespace miruo
             yield return new WaitForSeconds(0.1f);
             krasusUICon.state_Change(0);
             yield return new WaitForSeconds(3f);
+            StartCoroutine(GameCount());
             displaySmile = true;
             playerObj.SetActive(true);
             nowForwardState = 0;
@@ -215,7 +217,8 @@ namespace miruo
             bgmAudio.Stop();
             moveMode = 0;
             myParti.Pause();
-            krasusUICon.window_msg("寄了");
+            krasusUICon.window_msg("时间到了");
+            StartCoroutine(GameEnd());
             krasusUICon.state_Change(6);
         }
         public void RestartRobot()//gamerestart
@@ -235,10 +238,30 @@ namespace miruo
             StartCoroutine(GameCount());
             StartCoroutine(SmileText());
         }
+        IEnumerator GameEnd()
+        {
+            yield return new WaitForSeconds(3.5f);
+            krasusUICon.window_msg("这个产品和上个过于感性");
+            yield return new WaitForSeconds(3.5f);
+            krasusUICon.window_msg("都是不合格产品");
+            yield return new WaitForSeconds(3.5f);
+            krasusUICon.window_msg("没有存在必要，稍后就清除数据");
+            yield return new WaitForSeconds(3.5f);
+            krasusUICon.window_msg("感谢您的微笑");
+            yield return new WaitForSeconds(3.5f);
+            krasusUICon.window_msg("不妨放松一下脸庞");
+            yield return new WaitForSeconds(3.5f);
+            krasusUICon.window_msg("我们下次再见");
+        }
         IEnumerator GameCount()
         {
             Debug.Log("开始计时");
-            yield return new WaitForSeconds(180);
+            
+            for(int i =10;i>=1; i--)
+            {
+                countText.text = "剩余时间：" + i.ToString();
+                yield return new WaitForSeconds(1);
+            }
             KillRobot();
         }
         public void touchBox()
