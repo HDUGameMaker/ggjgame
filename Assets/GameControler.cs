@@ -224,6 +224,7 @@ namespace miruo
             StopAllCoroutines();
             bgmAudio.Play();
             myParti.Play();
+            krasusUICon.state_Change(0);
             displaySmile = true;
             playerObj.transform.position = startPos;
             nowTopic = startTopic.GetComponent<TopicControler>().mytopic;
