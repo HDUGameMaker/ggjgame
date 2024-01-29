@@ -142,7 +142,7 @@ namespace miruo
             }
             if (moveMode == 2)
             {
-                playerRig.velocity = new Vector3(Mathf.Lerp(playerRig.velocity.x, 1f, 0.05f), playerRig.velocity.y, playerRig.velocity.z);
+                playerRig.velocity = new Vector3(Mathf.Lerp(playerRig.velocity.x, 2f, 0.05f), playerRig.velocity.y, playerRig.velocity.z);
             }
             if (moveMode == 1)
             {
